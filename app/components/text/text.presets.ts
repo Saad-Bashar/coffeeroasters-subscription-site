@@ -7,7 +7,16 @@ import { color, typography } from "../../theme"
 const BASE: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
-  fontSize: 15,
+  fontSize: 14,
+}
+
+/**
+ * All text will start off looking like this.
+ */
+const BOLD: TextStyle = {
+  fontFamily: typography.secondary,
+  color: color.text,
+  fontSize: 14,
 }
 
 /**
@@ -24,7 +33,7 @@ export const presets = {
   /**
    * A bold version of the default text.
    */
-  bold: { ...BASE, fontWeight: "bold" } as TextStyle,
+  bold: { ...BOLD } as TextStyle,
 
   /**
    * Large headers.
