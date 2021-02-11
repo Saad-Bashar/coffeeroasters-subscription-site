@@ -38,4 +38,6 @@
  * 7 = huge    - ?
  * 8 = massive - an uncomfortable amount of whitespace
  */
-export const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64]
+import { scale, moderateScale } from 'react-native-size-matters'
+export const spacing = [0, scale(4), scale(8), scale(12), scale(16), scale(24), scale(32), scale(48), scale(64)]
+// export const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64]

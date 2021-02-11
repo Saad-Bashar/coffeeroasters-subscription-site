@@ -12,7 +12,7 @@ import { mergeAll, flatten } from "ramda"
  */
 export function Text(props: TextProps) {
   // grab the props
-  const { preset = "default", tx, txOptions, text, children, style: styleOverride, textColor, ...rest } = props
+  const { preset = "default", tx, txOptions, text, children, style: styleOverride, textColor, centered, ...rest } = props
 
   // figure out which content to use
   const i18nText = tx && translate(tx, txOptions)
@@ -21,7 +21,7 @@ export function Text(props: TextProps) {
   const style = mergeAll(flatten([presets[preset] || presets.default, styleOverride]))
 
   return (
-    <ReactNativeText {...rest} style={[style, { color: textColor }]}>
+    <ReactNativeText {...rest} style={[style, textColor && { color: textColor }, centered && { textAlign: 'center' }]}>
       {content}
     </ReactNativeText>
   )

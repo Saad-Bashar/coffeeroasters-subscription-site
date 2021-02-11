@@ -34,4 +34,6 @@ export interface TextProps extends TextProperties {
   preset?: TextPresets
 
   textColor?: string
+
+  centered?: boolean
 }

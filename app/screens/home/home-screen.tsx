@@ -1,22 +1,62 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, View, Image, ImageBackground, Dimensions, ImageStyle, TextStyle, } from "react-native"
-import { Screen, Text } from "../../components"
+import { ViewStyle, View, Image, ImageBackground, Dimensions, ImageStyle, TextStyle,  } from "react-native"
+import { Button, Screen, Text } from "../../components"
 import { color, spacing } from "../../theme"
 import Logo from './logo'
+import { moderateScale, scale } from "react-native-size-matters"
+import { LinearGradient } from 'expo-linear-gradient';
+import { CollectionItem } from "../../components/collection-item/collection-item"
 import LANDINGIMAGE from './image-hero-coffeepress.jpg'
-import { Colors } from "react-native/Libraries/NewAppScreen"
+import ESPRESSO from './image-gran-espresso.png'
+import PLANALTO from './image-planalto.png'
+import PICOLLO from './image-piccollo.png'
+import DANCHE from './image-danche.png'
+import MaskedView from '@react-native-community/masked-view';
+
+
+const COLLECTION_DATA = [
+  {
+    title: "Gran Espresso",
+    body: "Light and flavorful blend with cocoa and black pepper for an intense experience",
+    image: ESPRESSO,
+  },
+  {
+    title: "Planalto",
+    body: "Brazilian dark roast with rich and velvety body, and hints of fruits and nuts",
+    image: PLANALTO,
+  },
+  {
+    title: "Piccollo",
+    body: "Mild and smooth blend featuring notes of toasted almond and dried cherry ",
+    image: PICOLLO
+  },
+  {
+    title: "Danche",
+    body: "Ethiopian hand-harvested blend densely packed with vibrant fruit notes",
+    image: DANCHE
+  }
+]
 
 const { width } = Dimensions.get('window')
 
+const GradientText = props => (
+  <MaskedView maskElement={<Text {...props} />}>
+    <LinearGradient colors={["#83888F", ' rgba(254, 252, 247, 0.001)']}>
+      <Text {...props} style={[props.style, { opacity: 0 }]} />
+    </LinearGradient>
+  </MaskedView>
+);
+
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
-  flex: 1,
+  flexGrow: 1,
+  paddingBottom: spacing[8]
 }
 
 const HEADER: ViewStyle = {
   paddingVertical: spacing[5],
-  paddingHorizontal: spacing[4]
+  paddingHorizontal: spacing[4],
 }
 
 const LANDING_IMAGE_BODY: ViewStyle = {
@@ -24,13 +64,12 @@ const LANDING_IMAGE_BODY: ViewStyle = {
 }
 
 const LANDING_IMAGE_BODY_TEXT: TextStyle = {
-  lineHeight: 25,
-  textAlign: "center"
+  lineHeight: moderateScale(25),
+  textAlign: "center",
+  fontSize: moderateScale(16)
 }
-
-const IMAGE_ASPECT_RATIO = 327 / 500
 const IMAGE_WIDTH = width - spacing[4]
-const IMAGE_HEIGHT = IMAGE_WIDTH / IMAGE_ASPECT_RATIO
+const IMAGE_HEIGHT = moderateScale(500)
 const LANDING_IMAGE_STYLE: ImageStyle = {
   width: IMAGE_WIDTH,
   height: IMAGE_HEIGHT,
@@ -41,6 +80,21 @@ const LANDING_IMAGE_STYLE: ImageStyle = {
   justifyContent: 'center',
   alignItems: 'center',
 }
+const LANDING_IMAGE_TEXT_WRAPPER: ViewStyle = {
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginBottom: scale(40)
+}
+const COLLECTION_WRAPPER: ViewStyle = {
+  marginTop: moderateScale(32),
+}
+const COLLECTION_TITLE: TextStyle = {
+  textAlign: 'center',
+}
+const COLLECTION_ITEM_WRAPPER: ViewStyle = {
+  marginTop: spacing[4],
+  marginHorizontal: spacing[6]
+}
 
 export const HomeScreen = observer(function HomeScreen() {
   return (
@@ -48,21 +102,45 @@ export const HomeScreen = observer(function HomeScreen() {
       <View style={HEADER}>
         <Logo />
       </View>
-      <ImageBackground
-        style={LANDING_IMAGE_STYLE}
-        source={LANDINGIMAGE}
-      >
-        <View>
-          <Text preset="h2" textColor={color.lightCream}>Great Coffee</Text>
-          <Text preset="h2" textColor={color.lightCream}>made simple.</Text>  
+      <ImageBackground style={LANDING_IMAGE_STYLE} source={LANDINGIMAGE} resizeMode="cover">
+        <View style={LANDING_IMAGE_TEXT_WRAPPER}>
+          <View>
+            <Text preset="h2" textColor={color.lightCream}>
+              Great Coffee
+            </Text>
+            <Text preset="h2" textColor={color.lightCream}>
+              made simple.
+            </Text>
+          </View>
+          <View style={LANDING_IMAGE_BODY}>
+            <Text style={LANDING_IMAGE_BODY_TEXT} textColor={color.lightCream}>
+              Start your mornings with the world’s best coffees. Try our expertly curated artisan
+              coffees from our best roasters delivered directly to your door, at your schedule.
+            </Text>
+          </View>
         </View>
-        <View style={LANDING_IMAGE_BODY}>
-          <Text style={LANDING_IMAGE_BODY_TEXT} textColor={color.lightCream}>
-            Start your mornings with the world’s best coffees. Try our expertly curated artisan 
-            coffees from our best roasters delivered directly to your door, at your schedule.
-          </Text>
-        </View> 
+
+        <Button text="Create your plan" />
       </ImageBackground>
+
+      <View style={COLLECTION_WRAPPER}>
+        <View style={COLLECTION_ITEM_WRAPPER}>
+          <GradientText style={COLLECTION_TITLE} preset="h2">
+            our collection
+          </GradientText>
+          {COLLECTION_DATA.map((item, index) => {
+            return (
+              <CollectionItem
+                key={item.title}
+                title={item.title}
+                body={item.body}
+                image={item.image}
+                style={index > 0 && { marginTop: spacing[8] }}
+              />
+            )
+          })}
+        </View>
+      </View>
     </Screen>
   )
 })

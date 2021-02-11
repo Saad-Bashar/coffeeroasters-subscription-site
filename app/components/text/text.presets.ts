@@ -1,3 +1,4 @@
+import { moderateScale } from 'react-native-size-matters';
 import { TextStyle } from "react-native"
 import { color, typography } from "../../theme"
 
@@ -16,7 +17,7 @@ const BASE: TextStyle = {
 const BOLD: TextStyle = {
   fontFamily: typography.secondary,
   color: color.text,
-  fontSize: 16,
+  fontSize: moderateScale(16),
 }
 
 /**
@@ -35,22 +36,23 @@ export const presets = {
    */
   bold: { ...BOLD } as TextStyle,
 
-  h2: { ...BOLD, fontSize: 40, lineHeight: 48, } as TextStyle,
+  h2: { ...BOLD, fontSize: moderateScale(40), lineHeight: moderateScale(48), } as TextStyle,
+  h4: { ...BOLD, fontSize: moderateScale(24), lineHeight: moderateScale(32), } as TextStyle,
 
   /**
    * Large headers.
    */
-  header: { ...BASE, fontSize: 24, fontWeight: "bold" } as TextStyle,
+  header: { ...BASE, fontSize: moderateScale(24), fontWeight: "bold" } as TextStyle,
 
   /**
    * Field labels that appear on forms above the inputs.
    */
-  fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
+  fieldLabel: { ...BASE, fontSize: 13 } as TextStyle,
 
   /**
    * A smaller piece of secondard information.
    */
-  secondary: { ...BASE, fontSize: 9, color: color.dim } as TextStyle,
+  secondary: { ...BASE, fontSize: 9 } as TextStyle,
 }
 
 /**
