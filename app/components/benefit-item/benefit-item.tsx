@@ -9,7 +9,7 @@ const CONTAINER: ViewStyle = {
   marginHorizontal: spacing[5],
   marginVertical: scale(12),
   backgroundColor: color.primary,
-  paddingHorizontal: scale(40),
+  paddingHorizontal: spacing[5],
   borderRadius: spacing[2],
   justifyContent: 'center',
   alignItems: 'center',
