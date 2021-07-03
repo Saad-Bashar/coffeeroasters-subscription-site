@@ -5,9 +5,14 @@
  * will use once logged in.
  */
 import React from "react"
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
+import { StatusBar } from 'react-native'
+import { NavigationContainer, NavigationContainerRef, } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import { MainNavigator } from "./main-navigator"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { HomeScreen } from "../screens/home/home-screen"
+import { AboutUsScreen, CreateAPlanScreen } from "../screens"
+import { Ionicons, AntDesign } from '@expo/vector-icons'
+import { color } from "../theme/"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -24,22 +29,33 @@ export type RootParamList = {
 }
 
 const Stack = createStackNavigator<RootParamList>()
+const Tab = createBottomTabNavigator()
 
 const RootStack = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
+    <Tab.Navigator
+      screenOptions={({ route }: {route: any}) => ({
+        tabBarIcon: ({ focused }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = "home"
+          } else if (route.name === "Create") {
+            iconName= "pluscircle"
+          } else if (route.name === "About") {
+            iconName = "infocirlceo"
+          }
+          return <AntDesign name={iconName} size={22} color={focused ? color.primary : 'black'} />
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: color.primary,
+        inactiveTintColor: "gray",
       }}
     >
-      <Stack.Screen
-        name="mainStack"
-        component={MainNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="About" component={AboutUsScreen} />
+      <Tab.Screen name="Create" component={CreateAPlanScreen} />
+    </Tab.Navigator>
   )
 }
 
@@ -50,6 +66,7 @@ export const RootNavigator = React.forwardRef<
   return (
     <NavigationContainer {...props} ref={ref}>
       <RootStack />
+      <StatusBar barStyle="dark"  />
     </NavigationContainer>
   )
 })

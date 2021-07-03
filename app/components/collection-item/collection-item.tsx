@@ -1,27 +1,21 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from "react"
 import { TextStyle, View, ViewStyle, Image, ImageStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../theme"
 import { Text } from "../"
 import { moderateScale, scale } from "react-native-size-matters"
+import useDevice from "../../hooks/useDevice"
 
 const CONTAINER: ViewStyle = {
-  marginTop: spacing[3]
+  marginVertical: spacing[5]
 }
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
-}
-
 const BODY: TextStyle = {
-  lineHeight: moderateScale(25),
-  paddingTop: spacing[4]
+  lineHeight: moderateScale(18),
+  paddingTop: spacing[2]
 }
-
 const IMAGE: ImageStyle = {
-  width: scale(200),
+  width: "100%",
   height: scale(150),
   alignSelf: "center"
 }
@@ -41,10 +35,25 @@ export interface CollectionItemProps {
  */
 export const CollectionItem = observer(function CollectionItem(props: CollectionItemProps) {
   const { style, title, body, image } = props
+  const isTablet = useDevice()
+
+  if (isTablet) {
+    return (
+      <View style={{ flexDirection: 'row', marginVertical: spacing[5] }}>
+        <View style={{ flex: 1 }}>
+          <Image style={IMAGE} source={image} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text preset="h4">{title}</Text>
+          <Text style={[BODY, { marginRight: 30 }]}>{body}</Text>
+        </View>
+      </View>
+    )
+  }
 
   return (
     <View style={[CONTAINER, style]}>
-      <Image style={IMAGE} source={image} />
+      <Image style={IMAGE} source={image} resizeMode="contain" />
       <Text centered preset="h4">{title}</Text>
       <Text style={BODY} centered>{body}</Text>
     </View>

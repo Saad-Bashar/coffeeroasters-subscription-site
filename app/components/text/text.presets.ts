@@ -8,7 +8,7 @@ import { color, typography } from "../../theme"
 const BASE: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
-  fontSize: 16,
+  fontSize: moderateScale(15),
 }
 
 /**
@@ -38,6 +38,7 @@ export const presets = {
 
   h2: { ...BOLD, fontSize: moderateScale(40), lineHeight: moderateScale(48), } as TextStyle,
   h4: { ...BOLD, fontSize: moderateScale(24), lineHeight: moderateScale(32), } as TextStyle,
+  h5: { ...BOLD, fontSize: moderateScale(18), lineHeight: moderateScale(32), } as TextStyle,
 
   /**
    * Large headers.

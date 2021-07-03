@@ -6,7 +6,6 @@ const useDevice = () => {
 
   const checkIsTablet = async () => {
     const deviceType = await Device.getDeviceTypeAsync()
-    console.log("DEVICE TYPE == ", deviceType)
     setIsTablet(deviceType === 2)
   }
 

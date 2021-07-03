@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite"
 import { color, spacing, typography } from "../../theme"
 import { Text } from "../"
 import { moderateScale, scale } from "react-native-size-matters"
+import useDevice from "../../hooks/useDevice"
 
 const CONTAINER: ViewStyle = {
   marginHorizontal: spacing[5],
@@ -17,26 +18,24 @@ const CONTAINER: ViewStyle = {
 }
 const HORIZONTAL: ViewStyle = {
   flexDirection: "row",
+  marginHorizontal: spacing[5],
+  marginVertical: scale(12),
+  backgroundColor: color.primary,
+  borderRadius: spacing[2],
+  alignItems: 'center',
+  height: scale(120),
+  paddingHorizontal: spacing[5],
+
 }
 const BODY: TextStyle = {
-  lineHeight: moderateScale(18),
+  lineHeight: moderateScale(22),
   paddingTop: spacing[3],
-}
-const BODY_HORIZONTAL: TextStyle = {
-  marginRight: 30,
-}
-const WRAPPER_HORIZONTAL: ViewStyle = {
-  flex: 1,
+  fontSize: moderateScale(15)
 }
 const TEXT_WRAPPER: ViewStyle = {
   marginTop: scale(40)
 }
 
-const IMAGE: ImageStyle = {
-  width: scale(200),
-  height: scale(150),
-  alignSelf: "center",
-}
 
 export interface CollectionItemProps {
   /**
@@ -45,7 +44,7 @@ export interface CollectionItemProps {
   style?: ViewStyle
   title: string
   body: string
-  image?: React.Component
+  image?: React.Component<React.FC>
   horizontal?: boolean
 }
 
@@ -54,16 +53,19 @@ export interface CollectionItemProps {
  */
 export const BenfitItem = observer(function CollectionItem(props: CollectionItemProps) {
   const { style, title, body, image, horizontal = false } = props
+  const isTablet = useDevice()
 
-  if (horizontal) {
+  if (isTablet) {
     return (
       <View style={[HORIZONTAL, style]}>
-        <View style={WRAPPER_HORIZONTAL}>
-          <Image style={IMAGE} source={image} />
-        </View>
-        <View style={WRAPPER_HORIZONTAL}>
-          <Text preset="h4">{title}</Text>
-          <Text style={[BODY, BODY_HORIZONTAL]}>{body}</Text>
+        {image()}
+        <View style={{ flex: 1, marginLeft: spacing[5] }}>
+          <Text textColor={color.lightCream} preset="h4">
+            {title}
+          </Text>
+          <Text textColor={color.lightCream} style={BODY} >
+            {body}
+          </Text>
         </View>
       </View>
     )
@@ -71,7 +73,7 @@ export const BenfitItem = observer(function CollectionItem(props: CollectionItem
 
   return (
     <View style={[CONTAINER, style]}>
-      { image() }
+      {image()}
       <View style={TEXT_WRAPPER}>
         <Text textColor={color.lightCream} centered preset="h4">
           {title}
@@ -80,7 +82,6 @@ export const BenfitItem = observer(function CollectionItem(props: CollectionItem
           {body}
         </Text>
       </View>
-      
     </View>
   )
 })
